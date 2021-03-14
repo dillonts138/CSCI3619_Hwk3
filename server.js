@@ -94,7 +94,7 @@ router.route('/movies')
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
 
-        Movie.find({Title: movieFind.Title},function(err, movi){
+        Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie."});
             }
@@ -125,7 +125,7 @@ router.route('/movies')
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
 
-        Movie.find({Title: movieFind.Title},function(err, movi){
+        Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occurred while trying to find movi"});
             }
@@ -152,7 +152,7 @@ router.route('/movies')
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
 
-        Movie.find({Title: movieFind.Title},function(err, movi){
+        Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occurred while trying to find movie to delete."});
             }
