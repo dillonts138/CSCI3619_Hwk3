@@ -115,7 +115,7 @@ router.route('/movies')
                 res.send({msg:"an unexpected error occured"});
             }
             else{
-                res.status(200).send({success: ture, msg: "Movie succesully created."});
+                res.status(200).send({success: true, msg: "Movie succesully created."});
             }
         })
     })
