@@ -1,4 +1,4 @@
-// CSCI 3916 Hwk 2
+// CSCI 3916 Hwk 3
 //Dillon Shaver
 //File: Server.js
 //Description: web Api scaffolding for movie Api
@@ -11,6 +11,7 @@ var authJwtController = require('./auth_jwt');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var User = require('./Users');
+var Movie = require('./Movies')
 
 var app = express();
 app.use(cors());
@@ -83,6 +84,90 @@ router.post('/signin', function (req, res) {
         })
     })
 });
+
+router.route('/movies')
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        var movieFind = new Movie();
+        movieFind.Title = req.body.Title;
+        movieFind.Year = req.body.Year;
+        movieFind.Genre = req.body.Genre;
+        movieFind.Actors = req.body.Actors;
+
+        Movie.find({Title: movieFind.Title},function(err, movi){
+            if (err){
+                res.send(err);
+            }
+            else{
+                res.status(200).send({success: true, Title: movi.Title, Year: movi.Year, Genre: movi.Genre, Actors: movi.Actors});
+            }
+        })
+        })
+    .post(authJwtController.isAuthenticated, function (req, res) {
+        var movieFind = new Movie();
+        movieFind.Title = req.body.Title;
+        movieFind.Year = req.body.Year;
+        movieFind.Genre = req.body.Genre;
+        movieFind.Actors = req.body.Actors;
+
+        Movie.save(function (err){
+            if (err){
+                res.send(err);
+            }
+            else{
+                res.status(200).send({success: ture, msg: "Movie succesully updated."});
+            }
+        })
+    })
+    .put(authJwtController.isAuthenticated, function (req, res) {
+        var movieFind = new Movie();
+        movieFind.Title = req.body.Title;
+        movieFind.Year = req.body.Year;
+        movieFind.Genre = req.body.Genre;
+        movieFind.Actors = req.body.Actors;
+
+        Movie.find({Title: movieFind.Title},function(err, movi){
+            if (err){
+                res.send(err);
+            }
+            else{
+                movi.Title = movieFind.Title;
+                movi.Year = movieFind.Year;
+                movi.Genre = movieFind.Genre;
+                movi.Actors = movieFind.Actors;
+                Movie.save(function(err){
+                    if (err){
+                        res.send(err);
+                    }
+                    else{
+                        res.status(200).send({success: true, msg: "Movie successfully updated."});
+                    }
+                })
+            }
+        })
+    })
+    .delete(authController.isAuthenticated, function (req, res) {
+        var movieFind = new Movie();
+        movieFind.Title = req.body.Title;
+        movieFind.Year = req.body.Year;
+        movieFind.Genre = req.body.Genre;
+        movieFind.Actors = req.body.Actors;
+
+        Movie.find({Title: movieFind.Title},function(err, movi){
+            if (err){
+                res.send(err);
+            }
+            else{
+                Movie.remove(function(err){
+                    if (err){
+                        res.send(err);
+                    }
+                    else{
+                        res.status(200).send({success: true, msg: "Movie successfully deleted."});
+                    }
+                })
+            }
+        })
+    })
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
