@@ -109,13 +109,14 @@ router.route('/movies')
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
-
+        res.send({msg: "got to save function."}); //test code
         Movie.save(function (err){
             if (err){
                 res.send(err);
+                res.send({msg:"an unexpected error occured});
             }
             else{
-                res.status(200).send({success: ture, msg: "Movie succesully updated."});
+                res.status(200).send({success: ture, msg: "Movie succesully created."});
             }
         })
     })
