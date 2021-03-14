@@ -88,6 +88,9 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
+        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+        }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
         movieFind.Year = req.body.Year;
@@ -96,7 +99,7 @@ router.route('/movies')
 
         Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occured while trying to find movie."});
+                res.status(401).send({success: false, msg: "an unexpected error occured"});
             }
             else{
                 res.status(200).send({success: true, Title: movi.Title, Year: movi.Year, Genre: movi.Genre, Actors: movi.Actors});
@@ -104,6 +107,9 @@ router.route('/movies')
         })
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
+        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+        }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
         movieFind.Year = req.body.Year;
@@ -111,7 +117,7 @@ router.route('/movies')
         movieFind.Actors = req.body.Actors;
         movieFind.save(function (err){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occurred during saving"});
+                res.status(401).send({success: false, msg: "an unexpected error occurred"});
                 }
             else{
                     res.status(200).send({success: true, msg: "Movie successfully created."});
@@ -119,6 +125,10 @@ router.route('/movies')
             })
     })
     .put(authJwtController.isAuthenticated, function (req, res) {
+
+        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+        }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
         movieFind.Year = req.body.Year;
@@ -127,7 +137,7 @@ router.route('/movies')
 
         Movie.findOne({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occurred while trying to find movi"});
+                res.send(err);
             }
             else{
                 movi.Title = movieFind.Title;
@@ -136,7 +146,7 @@ router.route('/movies')
                 movi.Actors = movieFind.Actors;
                 movi.save(function(err){
                     if (err){
-                        res.status(401).send({success: false, msg: "an unexpected error occurred while trying to update movie"});
+                        res.status(401).send({success: false, msg: "an unexpected error occurred"});
                     }
                     else{
                         res.status(200).send({success: true, msg: "Movie successfully updated."});
@@ -146,6 +156,9 @@ router.route('/movies')
         })
     })
     .delete(authController.isAuthenticated, function (req, res) {
+        if (!req.body.Title || !req.body.Genre || !req.body.Year || !req.body.Actors) {
+            res.json({success: false, msg: 'Please include Title, Genre, Year, and Actors.'})
+        }
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
         movieFind.Year = req.body.Year;
@@ -160,6 +173,7 @@ router.route('/movies')
             }
         })
     })
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
