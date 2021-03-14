@@ -113,7 +113,7 @@ router.route('/movies')
         Movie.save(function (err){
             if (err){
                 res.send(err);
-                res.send({msg:"an unexpected error occured});
+                res.send({msg:"an unexpected error occured"});
             }
             else{
                 res.status(200).send({success: ture, msg: "Movie succesully created."});
