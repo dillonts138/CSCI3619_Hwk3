@@ -152,19 +152,11 @@ router.route('/movies')
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
 
-        Movie.findOne({Title: movieFind.Title},function(err, movi){
-            if (err){
-                res.status(401).send({success: false, msg: "an unexpected error occurred while trying to find movie to delete."});
-            }
-            else{
-                movi.remove(function(err){
-                    if (err){
-                        res.status(401).send({success: false, msg: "an unexpected error occurred while trying to delete movie"});
-                    }
-                    else{
-                        res.status(200).send({success: true, msg: "Movie successfully deleted."});
-                    }
-                })
+        Movie.findOneAndRemove({Title: movieFind.Title}, function (err, movi) {
+            if (err) {
+                res.status(401).send({success: false, msg: "an unexpected error occurred"});
+            } else {
+                res.status(200).send({success: true, msg: "Movie successfully deleted."});
             }
         })
     })
