@@ -96,28 +96,28 @@ router.route('/movies')
 
         Movie.find({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.send(err);
+                res.status(401).send({success: false, msg: "an unexpected error occured"});
             }
             else{
                 res.status(200).send({success: true, Title: movi.Title, Year: movi.Year, Genre: movi.Genre, Actors: movi.Actors});
             }
         })
-        })
+    })
     .post(authJwtController.isAuthenticated, function (req, res) {
         var movieFind = new Movie();
         movieFind.Title = req.body.Title;
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
+        res.send({msg: "got to save function."}); //test code
         Movie.save(function (err){
             if (err){
-                res.send(err);
-                res.send({msg:"an unexpected error occured"});
-            }
+                res.status(401).send({success: false, msg: "an unexpected error occurred"});
+                }
             else{
-                res.status(200).send({success: true, msg: "Movie succesully created."});
-            }
-        })
+                    res.status(200).send({success: true, msg: "Movie successfully created."});
+                }
+            })
     })
     .put(authJwtController.isAuthenticated, function (req, res) {
         var movieFind = new Movie();
@@ -137,7 +137,7 @@ router.route('/movies')
                 movi.Actors = movieFind.Actors;
                 Movie.save(function(err){
                     if (err){
-                        res.send(err);
+                        res.status(401).send({success: false, msg: "an unexpected error occurred"});
                     }
                     else{
                         res.status(200).send({success: true, msg: "Movie successfully updated."});
@@ -155,12 +155,12 @@ router.route('/movies')
 
         Movie.find({Title: movieFind.Title},function(err, movi){
             if (err){
-                res.send(err);
+                res.status(401).send({success: false, msg: "an unexpected error occurred"});
             }
             else{
                 Movie.remove(function(err){
                     if (err){
-                        res.send(err);
+                        res.status(401).send({success: false, msg: "an unexpected error occurred"});
                     }
                     else{
                         res.status(200).send({success: true, msg: "Movie successfully deleted."});
@@ -169,7 +169,6 @@ router.route('/movies')
             }
         })
     })
-
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
