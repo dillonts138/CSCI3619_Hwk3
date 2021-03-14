@@ -109,7 +109,7 @@ router.route('/movies')
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
-        Movie.save(function (err){
+        movieFind.save(function (err){
             if (err){
                 res.status(401).send({success: false, msg: "an unexpected error occurred during saving"});
                 }
