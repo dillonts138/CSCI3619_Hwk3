@@ -134,7 +134,7 @@ router.route('/movies')
                 movi.Year = movieFind.Year;
                 movi.Genre = movieFind.Genre;
                 movi.Actors = movieFind.Actors;
-                Movie.save(function(err){
+                movi.save(function(err){
                     if (err){
                         res.status(401).send({success: false, msg: "an unexpected error occurred while trying to update movie"});
                     }
@@ -157,7 +157,7 @@ router.route('/movies')
                 res.status(401).send({success: false, msg: "an unexpected error occurred while trying to find movie to delete."});
             }
             else{
-                Movie.remove(function(err){
+                movi.remove(function(err){
                     if (err){
                         res.status(401).send({success: false, msg: "an unexpected error occurred while trying to delete movie"});
                     }
