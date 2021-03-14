@@ -109,7 +109,6 @@ router.route('/movies')
         movieFind.Year = req.body.Year;
         movieFind.Genre = req.body.Genre;
         movieFind.Actors = req.body.Actors;
-        res.send({msg: "got to save function."}); //test code
         Movie.save(function (err){
             if (err){
                 res.send(err);
